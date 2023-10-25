@@ -1399,8 +1399,10 @@ escapeF = escapeWith escape
 
 escape :: Text -> Text
 escape s =
-    T.pack $ '"' : go (T.unpack s) ++ "\""
+    T.pack $ go0 (T.unpack s)
   where
+    go0 (' ':r) = r
+    go0 o = '"' : go o ++ "\""
     go "" = ""
     go ('"':xs) = "\"\"" ++ go xs
     go (x:xs) = x : go xs
